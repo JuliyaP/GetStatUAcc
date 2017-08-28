@@ -12,3 +12,7 @@ D:\UserAccStat\UAStat\UAStat\obj\Debug\UAStat.Properties.Resources.resources
 D:\UserAccStat\UAStat\UAStat\obj\Debug\UAStat.csproj.GenerateResource.Cache
 D:\UserAccStat\UAStat\UAStat\obj\Debug\UAStat.exe
 D:\UserAccStat\UAStat\UAStat\obj\Debug\UAStat.pdb
+D:\UserAccStat\UAStat\UAStat\bin\Debug\Npgsql.dll
+D:\UserAccStat\UAStat\UAStat\bin\Debug\System.Threading.Tasks.Extensions.dll
+D:\UserAccStat\UAStat\UAStat\bin\Debug\Npgsql.xml
+D:\UserAccStat\UAStat\UAStat\bin\Debug\System.Threading.Tasks.Extensions.xml
