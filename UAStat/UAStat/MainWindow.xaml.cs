@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using static System.Diagnostics.Debug;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,9 +26,9 @@ namespace UAStat
     {
         private static NpgsqlConnection cn = new NpgsqlConnection();
        // private static NpgsqlDataAdapter da = null;   
-        static string  test = "Test";
-        static string  connstring = String.Format($"Server={test};Port={test};" +
-                $"User Id={test}; Password= {test};Database={test};CommandTimeout=320;");
+        static string Test { get; set; } = "Test";
+        static string Connstring { get; set; } = String.Format($"Server={Test};Port={Test};" +
+                $"User Id={Test}; Password= {Test};Database={Test};CommandTimeout=320;");
 
         public MainWindow()
         {
@@ -44,31 +45,31 @@ namespace UAStat
         /// </summary>
         public void GetStatForAllUsers()
         {
-            Debug.Write("Начало обработки. Открытие соединения.");
-            cn.ConnectionString = connstring;
+            Write("Начало обработки. Открытие соединения.");
+            cn.ConnectionString = Connstring;
             try
             {               
                 cn.Open();
-                Debug.WriteLine("  =>  Успешно");              
+                WriteLine("  =>  Успешно");              
                 string sql = string.Format(@"SELECT  ""Login"" as ""Логин"",""INN"" as ""ИНН"", ""OGRN"" as ""ОГРН"" ,""Company"" as ""Название"",""MarketMembersTypes"" as ""Тип""FROM ""UserAccount"" where  ""IsActive"" = 'true'");             
                 NpgsqlCommand cmd = new NpgsqlCommand(sql, cn);
                 cmd.CommandTimeout = 0;
-                Debug.Write("Формирование выборки\n{0}\n..... Ждите\n", sql);
+                Write("Формирование выборки\n{0}\n..... Ждите\n", sql);
                 NpgsqlDataReader dr = cmd.ExecuteReader();
                                          
                 if (dr != null && dr.HasRows)
                 {
-                    Debug.WriteLine("Выборка сформирована. Записей => {0}", dr.RecordsAffected);         
+                    WriteLine("Выборка сформирована. Записей => {0}", dr.RecordsAffected);         
                 }
                 else
                 {
-                    Debug.WriteLine("Выборка пуста");
+                    WriteLine("Выборка пуста");
                 }
-                Debug.WriteLine("Конец обработки");               
+                WriteLine("Конец обработки");               
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);              
+                WriteLine(ex.Message);              
             }
             finally
             {
