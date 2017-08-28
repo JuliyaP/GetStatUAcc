@@ -1,0 +1,14 @@
+D:\UserAccStat\UAStat\UAStat\bin\Debug\UAStat.exe.config
+D:\UserAccStat\UAStat\UAStat\bin\Debug\UAStat.exe
+D:\UserAccStat\UAStat\UAStat\bin\Debug\UAStat.pdb
+D:\UserAccStat\UAStat\UAStat\obj\Debug\UAStat.csprojResolveAssemblyReference.cache
+D:\UserAccStat\UAStat\UAStat\obj\Debug\MainWindow.g.cs
+D:\UserAccStat\UAStat\UAStat\obj\Debug\App.g.cs
+D:\UserAccStat\UAStat\UAStat\obj\Debug\UAStat_MarkupCompile.cache
+D:\UserAccStat\UAStat\UAStat\obj\Debug\UAStat_MarkupCompile.lref
+D:\UserAccStat\UAStat\UAStat\obj\Debug\MainWindow.baml
+D:\UserAccStat\UAStat\UAStat\obj\Debug\UAStat.g.resources
+D:\UserAccStat\UAStat\UAStat\obj\Debug\UAStat.Properties.Resources.resources
+D:\UserAccStat\UAStat\UAStat\obj\Debug\UAStat.csproj.GenerateResource.Cache
+D:\UserAccStat\UAStat\UAStat\obj\Debug\UAStat.exe
+D:\UserAccStat\UAStat\UAStat\obj\Debug\UAStat.pdb
