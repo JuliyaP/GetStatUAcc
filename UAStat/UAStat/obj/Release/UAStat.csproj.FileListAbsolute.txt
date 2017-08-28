@@ -1,0 +1,13 @@
+D:\UserAccStat\UAStat\UAStat\bin\Release\UAStat.exe.config
+D:\UserAccStat\UAStat\UAStat\bin\Release\UAStat.exe
+D:\UserAccStat\UAStat\UAStat\bin\Release\UAStat.pdb
+D:\UserAccStat\UAStat\UAStat\obj\Release\MainWindow.g.cs
+D:\UserAccStat\UAStat\UAStat\obj\Release\App.g.cs
+D:\UserAccStat\UAStat\UAStat\obj\Release\UAStat_MarkupCompile.cache
+D:\UserAccStat\UAStat\UAStat\obj\Release\UAStat_MarkupCompile.lref
+D:\UserAccStat\UAStat\UAStat\obj\Release\MainWindow.baml
+D:\UserAccStat\UAStat\UAStat\obj\Release\UAStat.g.resources
+D:\UserAccStat\UAStat\UAStat\obj\Release\UAStat.Properties.Resources.resources
+D:\UserAccStat\UAStat\UAStat\obj\Release\UAStat.csproj.GenerateResource.Cache
+D:\UserAccStat\UAStat\UAStat\obj\Release\UAStat.exe
+D:\UserAccStat\UAStat\UAStat\obj\Release\UAStat.pdb

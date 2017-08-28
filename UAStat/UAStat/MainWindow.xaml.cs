@@ -24,5 +24,10 @@ namespace UAStat
         {
             InitializeComponent();
         }
+
+        private void GetStatBtn_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("XXX");
+        }
     }
 }
