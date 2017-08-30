@@ -6,17 +6,28 @@
         xmlns:local="clr-namespace:UAStat"
         mc:Ignorable="d"
         Title="Статистика по всем пользователям" Height="350" Width="525">
-    <Grid RenderTransformOrigin="0.474,0.43" Margin="54,0,0,17">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="10*"/>
-            <ColumnDefinition Width="34*"/>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="418*"/>
-        </Grid.ColumnDefinitions>
-        <Button Name ="GetStatBtn" Content="Статистика" HorizontalAlignment="Left" Margin="90,185,0,0" VerticalAlignment="Top" Width="91" RenderTransformOrigin="-0.365,0.519" Height="30" Grid.Column="3" Click="GetStatBtn_Click"/>
-        <Expander Header="Настройки" HorizontalAlignment="Left" Height="100" Margin="-35,30,0,0" VerticalAlignment="Top" Width="480" RenderTransformOrigin="-0.375,-0.115" Grid.ColumnSpan="4" IsExpanded="True">
-            <TextBox HorizontalAlignment="Left" Height="23" Margin="70,0,0,0" TextWrapping="Wrap" Text="C:\\..." Width="195" IsReadOnly="True"/>
-        </Expander>
+    <Grid HorizontalAlignment="Left" Height="307" Margin="10,10,0,0" VerticalAlignment="Top" Width="505">
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Expander Header="Настройки" Grid.Row="0" Margin="0,0,0,10">
+            <Grid HorizontalAlignment="Left" Height="134" Margin="10,0,-2,0" VerticalAlignment="Top" Width="495">
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="58*"></ColumnDefinition>
+                    <ColumnDefinition Width="107*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="1" Content="Путь для сохранения"/>
+                <Label Content="Период" Grid.Row="0" />
 
+                <TextBox Grid.Row="1" Grid.Column="1" Margin="0,10,61,26"/>
+                <ListBox  Grid.Row="0" Grid.Column="1" Margin="0,10,61,24"/>
+            </Grid>
+        </Expander>
     </Grid>
+
 </Window>
