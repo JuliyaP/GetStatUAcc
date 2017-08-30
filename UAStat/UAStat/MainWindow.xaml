@@ -8,22 +8,21 @@
         Title="Статистика по всем пользователям" Height="350" Width="525">
     <Grid HorizontalAlignment="Left" Height="307" Margin="10,10,0,0" VerticalAlignment="Top" Width="505">
         <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <Expander Header="Settings" Grid.Row="0" Margin="0,0,0,10">
             <Grid HorizontalAlignment="Left" Height="134" Margin="10,0,-2,0" VerticalAlignment="Top" Width="495">
                 <Grid.RowDefinitions>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
+                    <RowDefinition/>
+                    <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="58*"></ColumnDefinition>
-                    <ColumnDefinition Width="107*"></ColumnDefinition>
+                    <ColumnDefinition Width="58*"/>
+                    <ColumnDefinition Width="107*"/>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Row="1" Content="Path to saving"/>
                 <Label Content="Period" Grid.Row="0" />
-
                 <TextBox Grid.Row="1" Grid.Column="1" Margin="0,10,61,26"/>
                 <ListBox  Grid.Row="0" Grid.Column="1" Margin="0,10,61,24"/>
             </Grid>
