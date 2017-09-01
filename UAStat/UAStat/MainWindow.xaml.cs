@@ -48,15 +48,11 @@ namespace UAStat
         public void GetStatForAllUsers()
         {         
             Write("Начало обработки. Открытие соединения.");
-           // Thread.Sleep(TimeSpan.FromSeconds(5));
-            cn.ConnectionString = Connstring;
+            Thread.Sleep(TimeSpan.FromSeconds(5));
+           // cn.ConnectionString = Connstring;
             try
             {
-                ThreadStart threadStart = new ThreadStart(UpdateTextB);
-                this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, threadStart);
-
-
-
+                PathToSave.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, (Action)delegate () { PathToSave.Text = "Соед.открыто."; });           
                 cn.Open();
                 WriteLine("  =>  Успешно");              
                 string sql = string.Format(@"SELECT  ""Login"" as ""Логин"",""INN"" as ""ИНН"", ""OGRN"" as ""ОГРН"" ,""Company"" as ""Название"",""MarketMembersTypes"" as ""Тип""FROM ""UserAccount"" where  ""IsActive"" = 'true'");             
@@ -85,15 +81,7 @@ namespace UAStat
                 {
                     cn.Close();
                 }
-            }
-
-            
-
-        }
-
-        public void UpdateTextB()
-        {
-            PathToSave.Text = "Соед. открыто.";
-        }
+            }            
+        }      
     }
 }
