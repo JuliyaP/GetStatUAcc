@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Npgsql;
+using System.Threading;
 
 namespace UAStat
 {
@@ -36,8 +37,9 @@ namespace UAStat
         }
 
         private void GetStatBtn_Click(object sender, RoutedEventArgs e)
-        {        
-            GetStatForAllUsers();
+        {
+            Thread th = new Thread(GetStatForAllUsers);
+            th.Start();          
         }
 
         /// <summary>
@@ -46,9 +48,15 @@ namespace UAStat
         public void GetStatForAllUsers()
         {         
             Write("Начало обработки. Открытие соединения.");
+           // Thread.Sleep(TimeSpan.FromSeconds(5));
             cn.ConnectionString = Connstring;
             try
-            {               
+            {
+                ThreadStart threadStart = new ThreadStart(UpdateTextB);
+                this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, threadStart);
+
+
+
                 cn.Open();
                 WriteLine("  =>  Успешно");              
                 string sql = string.Format(@"SELECT  ""Login"" as ""Логин"",""INN"" as ""ИНН"", ""OGRN"" as ""ОГРН"" ,""Company"" as ""Название"",""MarketMembersTypes"" as ""Тип""FROM ""UserAccount"" where  ""IsActive"" = 'true'");             
@@ -81,6 +89,11 @@ namespace UAStat
 
             
 
+        }
+
+        public void UpdateTextB()
+        {
+            PathToSave.Text = "Соед. открыто.";
         }
     }
 }
