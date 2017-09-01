@@ -44,7 +44,7 @@ namespace UAStat
         /// Получить статистику по всем пользователям ЛК
         /// </summary>
         public void GetStatForAllUsers()
-        {
+        {         
             Write("Начало обработки. Открытие соединения.");
             cn.ConnectionString = Connstring;
             try
@@ -78,6 +78,8 @@ namespace UAStat
                     cn.Close();
                 }
             }
+
+            
 
         }
     }
