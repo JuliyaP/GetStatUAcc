@@ -17,6 +17,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Npgsql;
 using System.Threading;
+using System.ComponentModel;
+using System.Collections.Specialized;
+using System.Configuration;
 
 namespace UAStat
 {
@@ -26,27 +29,40 @@ namespace UAStat
     public partial class MainWindow : Window
     {
         private static NpgsqlConnection cn = new NpgsqlConnection();
+       static NameValueCollection appSet = ConfigurationSettings.AppSettings;
        // private static NpgsqlDataAdapter da = null;   
-        static string Test { get; set; } = "Test";
-        static string Connstring { get; set; } = String.Format($"Server={Test};Port={Test};" +
-                $"User Id={Test}; Password= {Test};Database={Test};CommandTimeout=320;");
+       // static string Test { get; set; } = "Test";
+        static string Connstring { get; set; } = String.Format($"Server={appSet["Server"]};Port={appSet["Port"]};" +
+                $"User Id={appSet["UserId"]}; Password= {appSet["Password"]};Database={appSet["Database"]};CommandTimeout=320;");
+       // BackgroundWorker _worker;
 
         public MainWindow()
         {
             InitializeComponent();
+          //  _worker = new BackgroundWorker();
+          //  _worker.ProgressChanged += new ProgressChangedEventHandler(Worker_ProgressChanged);
+          //  _worker.WorkerReportsProgress = true;
+          // _worker.DoWork += new DoWorkEventHandler(GetStatForAllUsers);
+            
         }
 
         private void GetStatBtn_Click(object sender, RoutedEventArgs e)
         {
             Thread th = new Thread(GetStatForAllUsers);
-            th.Start();          
+            th.Start();
+          //  _worker.RunWorkerAsync();
         }
 
+        //void Worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        //{
+        //    PBar.Value = e.ProgressPercentage;
+        //}
         /// <summary>
         /// Получить статистику по всем пользователям ЛК
         /// </summary>
         public void GetStatForAllUsers()
-        {         
+        {   
+            
             Write("Начало обработки. Открытие соединения.");
             Thread.Sleep(TimeSpan.FromSeconds(5));
            // cn.ConnectionString = Connstring;
@@ -82,6 +98,7 @@ namespace UAStat
                     cn.Close();
                 }
             }            
-        }      
+        }
+
     }
 }
