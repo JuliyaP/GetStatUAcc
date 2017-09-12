@@ -55,35 +55,34 @@ namespace UAStat
             cn.ConnectionString = Connstring;
             try
             {
-                PathToSave.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, (Action)delegate () { PathToSave.Text = "Соед.открыто."; });
+                OutputInfo("Открытие соединения..");
                 cn.Open();
-                WriteLine("  =>  Успешно");
+                OutputInfo("Открытие соединения..Успешно.");
                 string sql = string.Format(@"SELECT  ""Login"" as ""Логин"",""INN"" as ""ИНН"", ""OGRN"" as ""ОГРН"" ,""Company"" as ""Название"",""MarketMembersTypes"" as ""Тип""FROM ""UserAccount"" where  ""IsActive"" = 'true'");
                 NpgsqlCommand cmd = new NpgsqlCommand(sql, cn)
                 {
                     CommandTimeout = 0
                 };
-                Write("Формирование выборки\n{0}\n..... Ждите\n", sql);
+                OutputInfo("Формирование выборки.");
                 using (NpgsqlDataReader dr = cmd.ExecuteReader())
                 {
 
                     if (dr != null && dr.HasRows)
                     {
-
-                        WriteLine("Выборка сформирована. Записей => {0}", dr.RecordsAffected);
+                        OutputInfo("Выборка сформирована.");
                         ExportToExcel(dr);
                     }
                     else
                     {
-                        WriteLine("Выборка пуста");
+                        OutputInfo("Выборка пуста");
                     }
-                    WriteLine("Конец обработки");
+                    OutputInfo("Конец обработки");
 
                 }
             }
             catch (Exception ex)
             {
-                WriteLine(ex.Message);
+                OutputInfo($"Ошибка получения статистики. Подробнее: {ex.Message}");
             }
             finally
             {
@@ -93,6 +92,14 @@ namespace UAStat
                 }
             }
         }
+
+
+        public void OutputInfo(string message)
+        {
+            PathToSave.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, (Action)delegate () { PathToSave.Text = message; });
+            WriteLine(message);
+        }
+
 
         public void ExportToExcel(NpgsqlDataReader dr)
         {
@@ -113,15 +120,16 @@ namespace UAStat
                 }
                 catch (Exception ex)
                 {
-                    WriteLine(ex.Message);
+                    OutputInfo($"Ошибка формирования excel файла. Подробнее: {ex.Message}");                   
                 }
             }
             ObjExcel.Visible = true;
             ObjExcel.UserControl = true;
         }
 
-        private static int InsertValuesToCells(NpgsqlDataReader dr, Microsoft.Office.Interop.Excel.Worksheet ObjWorkSheet, int i)
+        private  int InsertValuesToCells(NpgsqlDataReader dr, Microsoft.Office.Interop.Excel.Worksheet ObjWorkSheet, int i)
         {
+            OutputInfo($"Запись в ячеку строка: {i}");
             i++;
             ObjWorkSheet.Cells[i, 1] = dr.GetString(0);
             ObjWorkSheet.Cells[i, 2] = dr.GetString(1);
