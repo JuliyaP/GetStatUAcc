@@ -9,8 +9,6 @@ namespace UAStat
         public string INN { get; set; }
         public string OGRN { get; set; }
         public string Company { get; set; }
-        public string MarketMembersTypes { get; set; }
-
-      
+        public string MarketMembersTypes { get; set; }      
     }
 }

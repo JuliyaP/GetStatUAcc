@@ -54,7 +54,7 @@ namespace UAStat
             //  _worker.RunWorkerAsync();
         }
 
-     
+
         /// <summary>
         /// Получить статистику по всем пользователям ЛК
         /// </summary>
@@ -90,7 +90,7 @@ namespace UAStat
                         WriteLine("Выборка пуста");
                     }
                     WriteLine("Конец обработки");
-    
+
                 }
             }
             catch (Exception ex)
@@ -122,36 +122,51 @@ namespace UAStat
             {
                 try
                 {
-                    UserAccount newItem = new UserAccount()
-                    {
-                        Login = dr.GetString(0),
-                        INN = dr.GetString(1),
-                        OGRN = dr.GetString(2),                       
-                        Company = dr.GetString(3),
-                        MarketMembersTypes = dr.GetString(4)
-                };
-              
+                    //UserAccount newItem = new UserAccount()
+                    //{
+                    //    Login = dr.GetString(0),
+                    //    INN = dr.GetString(1),
+                    //    OGRN = dr.GetString(2),
+                    //    Company = dr.GetString(3),
+                    //    MarketMembersTypes = dr.GetString(4)
+                    //};
 
-                    customers.Add(newItem);
+
+                    // customers.Add(newItem);
+
+
+                    //foreach (var r in customers)
+                    //{
+                        i++;
+                        ObjWorkSheet.Cells[i, 1] = dr.GetString(0);
+                        ObjWorkSheet.Cells[i, 2] = dr.GetString(1);
+                        ObjWorkSheet.Cells[i, 2].NumberFormat = "0";
+                        ObjWorkSheet.Cells[i, 3] = dr.GetString(2);
+                        ObjWorkSheet.Cells[i, 3].NumberFormat = "0";
+                        ObjWorkSheet.Cells[i, 4] = dr.GetString(3);
+                        ObjWorkSheet.Cells[i, 5] = dr.GetString(4);
+                    //}
+
+
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
 
                 }
 
             }
 
-            foreach (var r in customers)
-            {
-                i++;               
-                ObjWorkSheet.Cells[i, 1] = r.Login;
-                ObjWorkSheet.Cells[i, 2] = r.INN;
-                ObjWorkSheet.Cells[i, 2].NumberFormat = "0";
-                ObjWorkSheet.Cells[i, 3] = r.OGRN;
-                ObjWorkSheet.Cells[i, 3].NumberFormat = "0";
-                ObjWorkSheet.Cells[i, 4] = r.MarketMembersTypes;              
-            }
-           
+            //foreach (var r in customers)
+            //{
+            //    i++;
+            //    ObjWorkSheet.Cells[i, 1] = r.Login;
+            //    ObjWorkSheet.Cells[i, 2] = r.INN;
+            //    ObjWorkSheet.Cells[i, 2].NumberFormat = "0";
+            //    ObjWorkSheet.Cells[i, 3] = r.OGRN;
+            //    ObjWorkSheet.Cells[i, 3].NumberFormat = "0";
+            //    ObjWorkSheet.Cells[i, 4] = r.MarketMembersTypes;
+            //}
+
             ObjExcel.Visible = true;
             ObjExcel.UserControl = true;
 
