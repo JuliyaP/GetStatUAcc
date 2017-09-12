@@ -16,3 +16,5 @@ D:\UserAccStat\UAStat\UAStat\bin\Debug\Npgsql.dll
 D:\UserAccStat\UAStat\UAStat\bin\Debug\System.Threading.Tasks.Extensions.dll
 D:\UserAccStat\UAStat\UAStat\bin\Debug\Npgsql.xml
 D:\UserAccStat\UAStat\UAStat\bin\Debug\System.Threading.Tasks.Extensions.xml
+D:\UserAccStat\UAStat\UAStat\bin\Debug\AutoMapper.dll
+D:\UserAccStat\UAStat\UAStat\bin\Debug\AutoMapper.xml
