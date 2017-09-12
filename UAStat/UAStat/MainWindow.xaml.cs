@@ -30,101 +30,72 @@ namespace UAStat
     public partial class MainWindow : Window
     {
         private static NpgsqlConnection cn = new NpgsqlConnection();
-       static NameValueCollection appSet = ConfigurationSettings.AppSettings;
-       // private static NpgsqlDataAdapter da = null;   
-       // static string Test { get; set; } = "Test";
+        static NameValueCollection appSet = ConfigurationSettings.AppSettings;
+        // private static NpgsqlDataAdapter da = null;   
+        // static string Test { get; set; } = "Test";
         static string Connstring { get; set; } = String.Format($"Server={appSet["Server"]};Port={appSet["Port"]};" +
                 $"User Id={appSet["UserId"]}; Password= {appSet["Password"]};Database={appSet["Database"]};CommandTimeout=320;");
-       // BackgroundWorker _worker;
+        // BackgroundWorker _worker;
 
         public MainWindow()
         {
             InitializeComponent();
-          //  _worker = new BackgroundWorker();
-          //  _worker.ProgressChanged += new ProgressChangedEventHandler(Worker_ProgressChanged);
-          //  _worker.WorkerReportsProgress = true;
-          // _worker.DoWork += new DoWorkEventHandler(GetStatForAllUsers);
-            
+            //  _worker = new BackgroundWorker();
+            //  _worker.ProgressChanged += new ProgressChangedEventHandler(Worker_ProgressChanged);
+            //  _worker.WorkerReportsProgress = true;
+            // _worker.DoWork += new DoWorkEventHandler(GetStatForAllUsers);
+
         }
 
         private void GetStatBtn_Click(object sender, RoutedEventArgs e)
         {
             Thread th = new Thread(GetStatForAllUsers);
             th.Start();
-          //  _worker.RunWorkerAsync();
+            //  _worker.RunWorkerAsync();
         }
 
-        //void Worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        //{
-        //    PBar.Value = e.ProgressPercentage;
-        //}
+     
         /// <summary>
         /// Получить статистику по всем пользователям ЛК
         /// </summary>
         public void GetStatForAllUsers()
-        {   
-            
+        {
+
             Write("Начало обработки. Открытие соединения.");
-         //   Thread.Sleep(TimeSpan.FromSeconds(5));
+            //   Thread.Sleep(TimeSpan.FromSeconds(5));
             cn.ConnectionString = Connstring;
             try
             {
-                PathToSave.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, (Action)delegate () { PathToSave.Text = "Соед.открыто."; });           
+                PathToSave.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, (Action)delegate () { PathToSave.Text = "Соед.открыто."; });
                 cn.Open();
-                WriteLine("  =>  Успешно");              
+                WriteLine("  =>  Успешно");
                 string sql = string.Format(@"SELECT  ""Login"" as ""Логин"",""INN"" as ""ИНН"", ""OGRN"" as ""ОГРН"" ,""Company"" as ""Название"",""MarketMembersTypes"" as ""Тип""FROM ""UserAccount"" where  ""IsActive"" = 'true'");
                 NpgsqlCommand cmd = new NpgsqlCommand(sql, cn)
                 {
                     CommandTimeout = 0
                 };
                 Write("Формирование выборки\n{0}\n..... Ждите\n", sql);
-           //  NpgsqlDataReader dr = cmd.ExecuteReader();
+                //  NpgsqlDataReader dr = cmd.ExecuteReader();
                 using (NpgsqlDataReader dr = cmd.ExecuteReader())
                 {
-
-
 
                     if (dr != null && dr.HasRows)
                     {
 
-
                         WriteLine("Выборка сформирована. Записей => {0}", dr.RecordsAffected);
                         ExportToExcel(dr);
-
                     }
                     else
                     {
                         WriteLine("Выборка пуста");
                     }
                     WriteLine("Конец обработки");
-                    //List<MyClass> results = new List<MyClass>();
-
-                    //while (dr.Read())
-                    //{
-                    //    MyClass newItem = new MyClass();
-
-                    //    newItem.Id = dr.GetInt32(0);
-                    //    newItem.TypeId = dr.GetInt32(1);
-                    //    newItem.AllowedSMS = dr.GetBoolean(2);
-                    //    newItem.TimeSpan = dr.GetString(3);
-                    //    newItem.Price = dr.GetDecimal(4);
-                    //    newItem.TypeName = dr.GetString(5);
-
-                    //    results.Add(newItem);
-                    //}
+    
                 }
-
-         //       List<UserAccount> customers = new List<UserAccount>();// dr.AutoMap<UserAccount>()
-                                                    // .ToList();
-          
-
-
-
-             
             }
             catch (Exception ex)
             {
-                WriteLine(ex.Message);              
+                WriteLine(ex.Message);
             }
             finally
             {
@@ -132,7 +103,7 @@ namespace UAStat
                 {
                     cn.Close();
                 }
-            }            
+            }
         }
 
         public void ExportToExcel(NpgsqlDataReader dr)
@@ -151,75 +122,36 @@ namespace UAStat
             {
                 try
                 {
-                    UserAccount newItem = new UserAccount();
-
-                        newItem.Login = dr.GetString(0);
-                       //newItem.INN = dr.GetInt32(1);
-                    newItem.OGRN = dr.GetString(2);
-                 //   newItem.OGRN = dr.GetString(3);
-                    newItem.Company = dr.GetString(4);
-                    newItem.MarketMembersTypes = dr.GetString(5);
+                    UserAccount newItem = new UserAccount()
+                    {
+                        Login = dr.GetString(0),
+                        INN = dr.GetString(1),
+                        OGRN = dr.GetString(2),                       
+                        Company = dr.GetString(3),
+                        MarketMembersTypes = dr.GetString(4)
+                };
+              
 
                     customers.Add(newItem);
                 }
-                catch { }
+                catch(Exception ex)
+                {
+
+                }
 
             }
-            //do
-            //{
 
-            // result += "<h1>Таблица №" + i + "</h1>";
-            //DataTable schemaTable = dr.GetSchemaTable();
-
-
-
-            //    foreach (DataRow row in schemaTable.Rows)
-            //{
-            //    i++;
-            //    foreach (DataColumn column in schemaTable.Columns)
-            //    {
-            //        j++;
-            //        ObjWorkSheet.Cells[i, j + 1] = column.ColumnName.ToString();
-            //        //Console.WriteLine(String.Format("{0} = {1}",
-            //        //   column.ColumnName, row[column]));
-            //    }
-            //}
-
-
-
-
-
-            //while (dr.Read())
-            //    {
-            //       // result += "<li>";
-            //        // Получить все поля строки
-            //        for (int field = 0; field < dr.FieldCount; field++)
-            //        {
-            //            ObjWorkSheet.Cells[i, field + 1] = dr.GetName(field).ToString(); ;
-            //            //result += "<b>" + reader.GetName(field).ToString() + "</b>" + ": " +
-            //              //  reader.GetValue(field).ToString() + "<br>";
-            //        }
-            //      //  result += "</li>";
-            //    }
-            ////}
-            //while (dr.NextResult());
-
-            //while (dr.Read())
-            //{
-            //    int i = 1;
-            //    for (int field = 0; field < dr.FieldCount; field++)
-            //    {
-            //        ObjWorkSheet.Cells[i, field+1] = dr.GetName(field).ToString(); ;
-            //         //   dr.GetName(field).ToString();
-            //        //dr += "<b>" + dr.GetName(field).ToString() + "</b>" + ": " +
-            //        //    dr.GetValue(field).ToString() + "<br>";
-            //    }
-            //    i++;
-            //    //Значения [y - строка,x - столбец]
-            //    //ObjWorkSheet.Cells[3, 1] = "11";
-            //    //ObjWorkSheet.Cells[3, 2] = "122";
-            //    //ObjWorkSheet.Cells[3, 3] = "333";
-            //}
+            foreach (var r in customers)
+            {
+                i++;               
+                ObjWorkSheet.Cells[i, 1] = r.Login;
+                ObjWorkSheet.Cells[i, 2] = r.INN;
+                ObjWorkSheet.Cells[i, 2].NumberFormat = "0";
+                ObjWorkSheet.Cells[i, 3] = r.OGRN;
+                ObjWorkSheet.Cells[i, 3].NumberFormat = "0";
+                ObjWorkSheet.Cells[i, 4] = r.MarketMembersTypes;              
+            }
+           
             ObjExcel.Visible = true;
             ObjExcel.UserControl = true;
 
