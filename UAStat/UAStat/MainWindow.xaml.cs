@@ -51,7 +51,13 @@ namespace UAStat
         /// </summary>
         public void GetStatForAllUsers()
         {
-            Write("Начало обработки. Открытие соединения.");
+            using (UAStatContext db = new UAStatContext())
+            {
+                
+                var us = db.Users.ToList();
+              //  db.Users.Add(new UserAccount { Login ="Ghbdtn"});
+            }
+                Write("Начало обработки. Открытие соединения.");
             cn.ConnectionString = Connstring;
             try
             {
