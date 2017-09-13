@@ -29,11 +29,7 @@ namespace UAStat
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static NpgsqlConnection cn = new NpgsqlConnection();
-        static NameValueCollection appSet = ConfigurationSettings.AppSettings;
-        static string Connstring { get; set; } = String.Format($"Server={appSet["Server"]};Port={appSet["Port"]};" +
-                $"User Id={appSet["UserId"]}; Password= {appSet["Password"]};Database={appSet["Database"]};CommandTimeout=320;");
-
+    
         public MainWindow()
         {
             InitializeComponent();
@@ -53,48 +49,19 @@ namespace UAStat
         {
             using (UAStatContext db = new UAStatContext())
             {
-                
-                var us = db.Users.ToList();
-              //  db.Users.Add(new UserAccount { Login ="Ghbdtn"});
-            }
-                Write("Начало обработки. Открытие соединения.");
-            cn.ConnectionString = Connstring;
-            try
-            {
-                OutputInfo("Открытие соединения..");
-                cn.Open();
-                OutputInfo("Открытие соединения..Успешно.");
-                string sql = string.Format(@"SELECT  ""Login"" as ""Логин"",""INN"" as ""ИНН"", ""OGRN"" as ""ОГРН"" ,""Company"" as ""Название"",""MarketMembersTypes"" as ""Тип""FROM ""UserAccount"" where  ""IsActive"" = 'true'");
-                NpgsqlCommand cmd = new NpgsqlCommand(sql, cn)
+                try
                 {
-                    CommandTimeout = 0
-                };
-                OutputInfo("Формирование выборки.");
-                using (NpgsqlDataReader dr = cmd.ExecuteReader())
-                {
-
-                    if (dr != null && dr.HasRows)
-                    {
-                        OutputInfo("Выборка сформирована.");
-                        ExportToExcel(dr);
-                    }
-                    else
-                    {
-                        OutputInfo("Выборка пуста");
-                    }
-                    OutputInfo("Конец обработки");
-
+                    List<UserAccount> us = db.Users.ToList();
+                    ExportToExcel(us);
                 }
-            }
-            catch (Exception ex)
-            {
-                OutputInfo($"Ошибка получения статистики. Подробнее: {ex.Message}");
-            }
-            finally
-            {
-                if (cn.State != ConnectionState.Closed)
+
+                catch (Exception ex)
                 {
-                    cn.Close();
+                    OutputInfo($"Ошибка получения статистики. Подробнее: {ex.Message}");
+                }
+                finally
+                {
+
                 }
             }
         }
@@ -107,7 +74,7 @@ namespace UAStat
         }
 
 
-        public void ExportToExcel(NpgsqlDataReader dr)
+        public void ExportToExcel(List<UserAccount> us)
         {
             Microsoft.Office.Interop.Excel.Application ObjExcel = new Microsoft.Office.Interop.Excel.Application();
             Microsoft.Office.Interop.Excel.Workbook ObjWorkBook;
@@ -117,33 +84,34 @@ namespace UAStat
             //Таблица.
             ObjWorkSheet = (Microsoft.Office.Interop.Excel.Worksheet)ObjWorkBook.Sheets[1];
             int i = 0;
-            while (dr.Read())
-            {
+  
                 try
                 {
 
-                    i = InsertValuesToCells(dr, ObjWorkSheet, i);
+                    i = InsertValuesToCells(us, ObjWorkSheet, i);
                 }
                 catch (Exception ex)
                 {
                     OutputInfo($"Ошибка формирования excel файла. Подробнее: {ex.Message}");                   
                 }
-            }
             ObjExcel.Visible = true;
             ObjExcel.UserControl = true;
         }
 
-        private  int InsertValuesToCells(NpgsqlDataReader dr, Microsoft.Office.Interop.Excel.Worksheet ObjWorkSheet, int i)
+        private  int InsertValuesToCells(List<UserAccount> us, Microsoft.Office.Interop.Excel.Worksheet ObjWorkSheet, int i)
         {
-            OutputInfo($"Запись в ячеку строка: {i}");
-            i++;
-            ObjWorkSheet.Cells[i, 1] = dr.GetString(0);
-            ObjWorkSheet.Cells[i, 2] = dr.GetString(1);
-            ObjWorkSheet.Cells[i, 2].NumberFormat = "0";
-            ObjWorkSheet.Cells[i, 3] = dr.GetString(2);
-            ObjWorkSheet.Cells[i, 3].NumberFormat = "0";
-            ObjWorkSheet.Cells[i, 4] = dr.GetString(3);
-            ObjWorkSheet.Cells[i, 5] = dr.GetString(4);
+            foreach (var user in us)
+            {
+                OutputInfo($"Запись в ячеку строка: {i}");
+                i++;
+                ObjWorkSheet.Cells[i, 1] = user.Login;
+                ObjWorkSheet.Cells[i, 2] = user.INN;
+                ObjWorkSheet.Cells[i, 2].NumberFormat = "0";
+                ObjWorkSheet.Cells[i, 3] = user.OGRN;
+                ObjWorkSheet.Cells[i, 3].NumberFormat = "0";
+                ObjWorkSheet.Cells[i, 4] = user.MarketMembersTypes; 
+                ObjWorkSheet.Cells[i, 5] = user.Company; 
+            }
             return i;
         }
     }

@@ -52,3 +52,4 @@ D:\UserAccStat\UAStat\UAStat\bin\Debug\System.Collections.Immutable.xml
 D:\UserAccStat\UAStat\UAStat\bin\Debug\System.Diagnostics.DiagnosticSource.xml
 D:\UserAccStat\UAStat\UAStat\bin\Debug\System.Interactive.Async.xml
 D:\UserAccStat\UAStat\UAStat\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+D:\UserAccStat\UAStat\UAStat\obj\Debug\UAStat.csprojResolveAssemblyReference.cache
